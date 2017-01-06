@@ -1,0 +1,11 @@
+body {
+    background: #ECEFF1;
+}
+
+.item {
+    background: #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 10px;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>in4m jquery tiles demo</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="../src/jquery.tiles.js"></script>
+    <link rel="stylesheet" href="../src/jquery.tiles.css"/>
+    <link rel="stylesheet" href="css/demo.css"/>
+</head>
+<body>
+<div class="container">
+    <ul id="demo-list">
+        <li class="item"><h2>Item 1</h2>
+            <p>Short text</p></li>
+        <li class="item"><h2>Item 2</h2>
+            <p>Very long text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long
+                text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long text.
+                Very long text. Very long text. </p></li>
+        <li class="item"><h2>Item 3</h2></li>
+        <li class="item"><h2>Item 4</h2>
+            <p>Not too long text :). Not too long text :). </p></li>
+        <li class="item"><h2>Item 5</h2>
+            <p>Short text</p></li>
+        <li class="item"><h2>Item 6</h2>
+            <p>Very long text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long
+                text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long text.
+                Very long text. Very long text. </p></li>
+        <li class="item"><h2>Item 7</h2></li>
+        <li class="item"><h2>Item 8</h2>
+            <p>Not too long text :). Not too long text :). </p></li>
+    </ul>
+</div>
+
+<script>
+    $("#demo-list").in4mTILES({
+        width: 300,
+        type: 'grid'
+    });
+</script>
+</body>
+</html>

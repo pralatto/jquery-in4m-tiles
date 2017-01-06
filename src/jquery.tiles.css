@@ -1,0 +1,31 @@
+.in4m-tiles .item {
+    -webkit-transition: top 1s ease, left 0.5s ease, opacity 1s ease;
+    -moz-transition: top 1s ease, left 0.5s ease, opacity 1s ease;
+    -o-transition: top 1s ease, left 0.5s ease, opacity 1s ease;
+    transition: top 1s ease, left 0.5s ease, opacity 1s ease;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity: 0;
+    list-style-type: none;
+}
+
+.in4m-tiles-pre {
+    position: relative;
+    overflow: hidden;
+}
+
+.in4m-tiles-pre .item {
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+}
+
+.in4m-tiles-pre .item:nth-child(2n) {
+    top: 100%;
+}
+
+.in4m-tiles-pre.in4m-tiles .item {
+    opacity: 1;
+}
