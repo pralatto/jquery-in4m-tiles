@@ -1,7 +1,11 @@
 body {
     background: #ECEFF1;
 }
-
+.container {
+    width:1100px;
+    max-width: 90%;
+    margin: 0 auto;
+}
 .item {
     background: #fff;
     -webkit-border-radius: 3px;
