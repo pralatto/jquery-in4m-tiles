@@ -10,32 +10,46 @@
 </head>
 <body>
 <div class="container">
-    <ul id="demo-list">
-        <li class="item"><h2>Item 1</h2>
-            <p>Short text</p></li>
-        <li class="item"><h2>Item 2</h2>
+    <form>
+        <label for="type">Type:</label><select id="type" name="type">
+        <option>normal</option>
+        <option>fill</option>
+        <option>grid</option>
+    </select>
+    </form>
+    <section id="demo-list">
+        <div class="item"><h2>Item 1</h2>
+            <p>Short text</p></div>
+        <div class="item"><h2>Item 2</h2>
             <p>Very long text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long
                 text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long text.
-                Very long text. Very long text. </p></li>
-        <li class="item"><h2>Item 3</h2></li>
-        <li class="item"><h2>Item 4</h2>
-            <p>Not too long text :). Not too long text :). </p></li>
-        <li class="item"><h2>Item 5</h2>
-            <p>Short text</p></li>
-        <li class="item"><h2>Item 6</h2>
+                Very long text. Very long text. </p></div>
+        <div class="item"><h2>Item 3</h2></div>
+        <div class="item"><h2>Item 4</h2>
+            <p>Not too long text :). Not too long text :). </p></div>
+        <div class="item"><h2>Item 5</h2>
+            <p>Short text</p></div>
+        <div class="item"><h2>Item 6</h2>
             <p>Very long text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long
                 text. Very long text. Very long text. Very long text. Very long text. Very long text. Very long text.
-                Very long text. Very long text. </p></li>
-        <li class="item"><h2>Item 7</h2></li>
-        <li class="item"><h2>Item 8</h2>
-            <p>Not too long text :). Not too long text :). </p></li>
-    </ul>
+                Very long text. Very long text. </p></div>
+        <div class="item"><h2>Item 7</h2></div>
+        <div class="item"><h2>Item 8</h2>
+            <p>Not too long text :). Not too long text :). </p></div>
+    </section>
 </div>
 
 <script>
+    var type = $("#type");
     $("#demo-list").in4mTILES({
         width: 300,
-        type: 'grid'
+        type: type.val()
+    });
+    type.on("change", function(){
+        $("#demo-list").in4mTILES({
+            width: 300,
+            type: type.val()
+        });
     });
 </script>
 </body>
