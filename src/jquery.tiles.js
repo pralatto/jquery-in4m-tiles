@@ -53,6 +53,7 @@
                 settings.mobileWidth = settings.width;
             }
         }
+        settings.mod = settings.maxWidth > settings.minWidth && settings.minWidth > 0 ? 1 : 0;
     };
 
     $.fn.in4mTILES = function (params) {
@@ -62,8 +63,6 @@
             var settings = pluginParams.settings;
             cntDefaultStyles(obj, settings);
             itemsDefaultStyles(obj, settings);
-
-            settings.mod = settings.maxWidth > settings.minWidth && settings.minWidth > 0 ? 1 : 0;
 
             var containerWidth = 0;
             var colsNumber = 0;
@@ -121,6 +120,7 @@
                 }
             };
             var execute = function (obj) {
+                console.log("exec");
                 var i;
                 recalculateValues();
                 if (settings.mobileVersion && containerWidth < settings.mobileWidth) {
@@ -210,6 +210,9 @@
                         execute(obj);
                     }, 10);
                 });
+                obj.bind('DOMSubtreeModified', function(){
+                    execute(obj);
+                })
             }
             execute(obj);
             items.css('opacity', 1);
