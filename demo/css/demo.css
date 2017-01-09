@@ -13,3 +13,8 @@ body {
     border-radius: 3px;
     padding: 10px;
 }
+#form {
+    padding: 10px;
+    background: #CFD8DC;
+    margin-bottom: 10px;
+}

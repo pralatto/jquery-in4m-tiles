@@ -27,11 +27,10 @@
                     itemsSelector: '.item',
                     containerClass: 'in4m-tiles',
                     center: true,
-                    mobileVersion: true,
+                    responsive: true,
                     mobileMaximum: 0,
                     type: 'fill', // fill / normal / grid
-                    maxWidth: 0,
-                    minWidth: 0
+                    maxWidth: 0
                 }
             };
         } else {
@@ -46,14 +45,15 @@
     };
     var prepareSettings = function(settings)
     {
-        if (settings.mobileVersion) {
+        if (settings.responsive) {
             if (settings.mobileMaximum) {
                 settings.mobileWidth = Math.max(settings.width, settings.mobileMaximum);
             } else {
                 settings.mobileWidth = settings.width;
             }
         }
-        settings.mod = settings.maxWidth > settings.minWidth && settings.minWidth > 0 ? 1 : 0;
+        settings.mod = settings.maxWidth > settings.width && settings.width > 0 ? 1 : 0;
+        settings.currentWidth = settings.width;
     };
 
     $.fn.in4mTILES = function (params) {
@@ -70,11 +70,11 @@
             var positions = [];
             var items = obj.find(settings.itemsSelector);
             var res = false;
-            items.css({width: settings.width, marginLeft: settings.margin, marginBottom: settings.margin});
+            items.css({width: settings.currentWidth, marginLeft: settings.margin, marginBottom: settings.margin});
             var countColumns = function () {
                 items = obj.find(settings.itemsSelector);
                 containerWidth = obj.innerWidth();
-                colsNumber = Math.floor((containerWidth + settings.margin) / (settings.width + settings.margin));
+                colsNumber = Math.floor((containerWidth + settings.margin) / (settings.currentWidth + settings.margin));
                 colsNumber = Math.max(colsNumber, 1);
                 colsNumber = Math.min(items.length, colsNumber);
             };
@@ -82,25 +82,23 @@
                 containerWidth = obj.innerWidth();
                 var pod = (containerWidth + settings.margin) % (settings.maxWidth + settings.margin);
                 if (pod > 0) {
-                    pod = (containerWidth + settings.margin) % (settings.minWidth + settings.margin);
-                    var cCount = Math.floor((containerWidth + settings.margin) / (settings.minWidth + settings.margin));
+                    pod = (containerWidth + settings.margin) % (settings.width + settings.margin);
+                    var cCount = Math.floor((containerWidth + settings.margin) / (settings.width + settings.margin));
                     if (cCount > 0) {
-                        settings.width = settings.minWidth + pod / cCount;
-                        if (settings.width > settings.maxWidth) {
-                            settings.width = settings.maxWidth;
+                        settings.currentWidth = settings.width + pod / cCount;
+                        if (settings.currentWidth > settings.maxWidth) {
+                            settings.currentWidth = settings.maxWidth;
                         }
-                    } else {
-                        settings.width = settings.minWidth;
                     }
                 } else {
-                    settings.width = settings.maxWidth;
+                    settings.currentWidth = settings.maxWidth;
                 }
             };
             var countColsExt;
             if (settings.center) {
                 countColsExt = function () {
                     countColumns();
-                    offsetLeft = (containerWidth - (colsNumber * (settings.width + settings.margin) - settings.margin)) / 2;
+                    offsetLeft = (containerWidth - (colsNumber * (settings.currentWidth + settings.margin) - settings.margin)) / 2;
                 };
             } else {
                 countColsExt = function () {
@@ -112,18 +110,17 @@
                     countItemWidth();
                 }
                 countColsExt();
-                if (settings.mobileVersion && containerWidth < settings.mobileWidth) {
+                if (settings.responsive && containerWidth < settings.mobileWidth) {
                     items.css({position: 'relative', width: '100%', margin: '0 0 ' + settings.margin + "px"});
                 } else {
-                    items.css({position: 'absolute', width: settings.width, margin: 0});
-
+                    items.css({position: 'absolute', width: settings.currentWidth, margin: 0});
                 }
             };
             var execute = function (obj) {
                 console.log("exec");
                 var i;
                 recalculateValues();
-                if (settings.mobileVersion && containerWidth < settings.mobileWidth) {
+                if (settings.responsive && containerWidth < settings.mobileWidth) {
                     obj.find(settings.itemsSelector).css({top: '', left: '', height: ''});
                     obj.find(settings.itemsSelector).last().css('margin', 0);
                     obj.css('height', '');
@@ -148,7 +145,7 @@
                         }
                         items.each(function () {
                             var itemTop = positions[col];
-                            var itemLeft = col * (settings.width + settings.margin) + offsetLeft;
+                            var itemLeft = col * (settings.currentWidth + settings.margin) + offsetLeft;
                             positions[col] += $(this).outerHeight() + settings.margin;
                             col++;
                             if (col >= colsNumber) {
@@ -161,7 +158,7 @@
 
                         items.each(function () {
                             var itemTop = positions[col];
-                            var itemLeft = col * (settings.width + settings.margin) + offsetLeft;
+                            var itemLeft = col * (settings.currentWidth + settings.margin) + offsetLeft;
                             positions[col] += $(this).outerHeight() + settings.margin;
                             $(this).css({top: itemTop + "px", left: itemLeft + "px"});
                             var min = positions[col];
@@ -175,7 +172,7 @@
                     } else {
                         items.each(function () {
                             var itemTop = positions[col];
-                            var itemLeft = col * (settings.width + settings.margin) + offsetLeft;
+                            var itemLeft = col * (settings.currentWidth + settings.margin) + offsetLeft;
                             positions[col] += $(this).outerHeight() + settings.margin;
                             col++;
                             if (col >= colsNumber)
@@ -197,22 +194,11 @@
                     clearTimeout(res);
                     res = setTimeout(function () {
                         execute(obj);
-                    }, 100);
-                });
-                obj.find(settings.itemsSelector).on('resize', function () {
-                    clearTimeout(res);
-                    res = setTimeout(function () {
-                        execute(obj);
-                    }, 10);
-                }).on('remove', function () {
-                    clearTimeout(res);
-                    res = setTimeout(function () {
-                        execute(obj);
                     }, 10);
                 });
                 obj.bind('DOMSubtreeModified', function(){
                     execute(obj);
-                })
+                });
             }
             execute(obj);
             items.css('opacity', 1);
